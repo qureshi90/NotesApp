@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 import styles from './style.js';
 import Header from '../../components/header.js';
 import Card from '../../components/card.js';
@@ -14,13 +14,15 @@ const Notes = () => {
     <>
       <View style={styles.container}>
         <Header text={'Notes'} />
-        {dummyData.map(data => (
-          <Card
-            key={data.id}
-            title={data.title}
-            description={data.description}
-          />
-        ))}
+        <ScrollView>
+          {dummyData.map(data => (
+            <Card
+              key={data.id}
+              title={data.title}
+              description={data.description}
+            />
+          ))}
+        </ScrollView>
 
         <TouchableOpacity
           onPress={() => setModal(true)}
