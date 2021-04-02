@@ -19,4 +19,4 @@ export const dummyData = [
     title: 'demo',
     description: 'lorem ipsum dolor sit amet, consectetur adipiscing elit',
   },
-]
+];

@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'cyan',
   },
   fabButtonStyle: {
     alignItems: 'center',
@@ -22,6 +22,39 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 20,
     marginBottom: 20,
+  },
+  modal: {
+    marginHorizontal: '10%',
+    marginVertical: '20%',
+    padding: 10,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    justifyContent: 'space-between',
+  },
+  title: {
+    borderBottomWidth: 1,
+    backgroundColor: 'transparent',
+  },
+  description: {
+    backgroundColor: 'transparent',
+  },
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  cancelButton: {
+    margin: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    color: '#0081D5',
+  },
+  saveButton: {
+    margin: 10,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderRadius: 10,
+    backgroundColor: '#0081D5',
+    color: 'white',
   },
 });
 
