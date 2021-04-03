@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import styles from './style.js';
 import Header from '../../components/header.js';
 import Card from '../../components/card.js';
@@ -9,15 +15,46 @@ import Modal from 'react-native-modal';
 
 const Notes = () => {
   const [modal, setModal] = useState(false);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [note, setNote] = useState({});
+  const [notes, setNotes] = useState([]);
+  let titleInput, descriptionInput;
+
+  const Save = () => {
+    setNote({title: title, description: description});
+    setTitle('');
+    setDescription('');
+    titleInput.clear();
+    descriptionInput.clear();
+    setModal(false);
+    notes.unshift(note);
+    setNotes(notes);
+  };
+
+  const Cancel = () => {
+    setTitle('');
+    setDescription('');
+    titleInput.clear();
+    descriptionInput.clear();
+    setModal(false);
+  };
 
   return (
     <>
       <View style={styles.container}>
         <Header text={'Notes'} />
         <ScrollView>
-          {dummyData.map(data => (
+          {/* {dummyData.map(data => (
             <Card
               key={data.id}
+              title={data.title}
+              description={data.description}
+            />
+          ))} */}
+          {notes.map((data, index) => (
+            <Card
+              key={index}
               title={data.title}
               description={data.description}
             />
@@ -32,18 +69,27 @@ const Notes = () => {
 
         <Modal isVisible={modal} style={styles.modal}>
           <View>
-            <TextInput style={styles.title} placeholder={'title'} />
+            <TextInput
+              style={styles.title}
+              placeholder={'title'}
+              value={title}
+              onChangeText={text => setTitle(text)}
+              ref={input => (titleInput = input)}
+            />
             <TextInput
               style={styles.description}
               placeholder={'description'}
               multiline={true}
+              value={description}
+              onChangeText={text => setDescription(text)}
+              ref={input => (descriptionInput = input)}
             />
           </View>
           <View style={styles.buttons}>
-            <Text style={styles.cancelButton} onPress={() => setModal(false)}>
+            <Text style={styles.cancelButton} onPress={Cancel}>
               Cancel
             </Text>
-            <Text style={styles.saveButton} onPress={() => setModal(false)}>
+            <Text style={styles.saveButton} onPress={Save}>
               Save
             </Text>
           </View>
