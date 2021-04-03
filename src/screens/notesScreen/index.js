@@ -25,14 +25,13 @@ const Notes = () => {
       let data = await AsyncStorage.getItem('notes');
       setNotes(JSON.parse(data));
     })();
-  }, []);
+  }, [notes]);
 
   const Save = async () => {
     setModal(false);
 
     if (title !== '' || description !== '') {
       notes.unshift({title: title, description: description});
-      // setNotes(notes);
       setTitle('');
       setDescription('');
       titleInput.clear();
@@ -53,23 +52,26 @@ const Notes = () => {
     setModal(false);
   };
 
+  const Delete = async index => {
+    notes.splice(index, 1);
+    try {
+      await AsyncStorage.setItem('notes', JSON.stringify(notes));
+    } catch (e) {
+      // saving error
+    }
+  };
+
   return (
     <>
       <View style={styles.container}>
         <Header text={'Notes'} />
         <ScrollView>
-          {/* {dummyData.map(data => (
-            <Card
-              key={data.id}
-              title={data.title}
-              description={data.description}
-            />
-          ))} */}
           {notes.map((data, index) => (
             <Card
               key={index}
               title={data.title}
               description={data.description}
+              onPress={() => Delete(index)}
             />
           ))}
         </ScrollView>
