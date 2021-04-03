@@ -9,7 +9,6 @@ import {
 import styles from './style.js';
 import Header from '../../components/header.js';
 import Card from '../../components/card.js';
-import {dummyData} from '../../constants/dummyData.js';
 import {Icon} from 'react-native-elements';
 import Modal from 'react-native-modal';
 
@@ -17,19 +16,20 @@ const Notes = () => {
   const [modal, setModal] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [note, setNote] = useState({});
   const [notes, setNotes] = useState([]);
   let titleInput, descriptionInput;
 
   const Save = () => {
-    setNote({title: title, description: description});
-    setTitle('');
-    setDescription('');
-    titleInput.clear();
-    descriptionInput.clear();
     setModal(false);
-    notes.unshift(note);
-    setNotes(notes);
+
+    if (title !== '' || description !== '') {
+      notes.unshift({title: title, description: description});
+      setNotes(notes);
+      setTitle('');
+      setDescription('');
+      titleInput.clear();
+      descriptionInput.clear();
+    }
   };
 
   const Cancel = () => {
