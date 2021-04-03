@@ -1,22 +1,22 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Icon} from 'react-native-elements';
 
 const Card = props => {
   return (
     <>
-      <View style={styles.container}>
+      <Pressable onPress={props.onPress} style={styles.container}>
         <Text style={styles.title}>{props.title}</Text>
         <Text style={styles.description}>{props.description}</Text>
         <Icon
-          onPress={props.onPress}
+          onPress={props.delete}
           type={'ionicon'}
           name={'md-close'}
           size={18}
           color={'#8393A7'}
           containerStyle={styles.icon}
         />
-      </View>
+      </Pressable>
     </>
   );
 };

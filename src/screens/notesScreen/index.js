@@ -13,7 +13,7 @@ import {Icon} from 'react-native-elements';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Notes = () => {
+const Notes = ({navigation}) => {
   const [modal, setModal] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -71,7 +71,8 @@ const Notes = () => {
               key={index}
               title={data.title}
               description={data.description}
-              onPress={() => Delete(index)}
+              delete={() => Delete(index)}
+              onPress={() => navigation.navigate('note')}
             />
           ))}
         </ScrollView>
