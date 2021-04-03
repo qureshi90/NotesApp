@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import Header from '../../components/header.js';
 import Card from '../../components/card.js';
 import {Icon} from 'react-native-elements';
 import Modal from 'react-native-modal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Notes = () => {
   const [modal, setModal] = useState(false);
@@ -19,16 +20,28 @@ const Notes = () => {
   const [notes, setNotes] = useState([]);
   let titleInput, descriptionInput;
 
-  const Save = () => {
+  useEffect(() => {
+    (async function call() {
+      let data = await AsyncStorage.getItem('notes');
+      setNotes(JSON.parse(data));
+    })();
+  }, []);
+
+  const Save = async () => {
     setModal(false);
 
     if (title !== '' || description !== '') {
       notes.unshift({title: title, description: description});
-      setNotes(notes);
+      // setNotes(notes);
       setTitle('');
       setDescription('');
       titleInput.clear();
       descriptionInput.clear();
+      try {
+        await AsyncStorage.setItem('notes', JSON.stringify(notes));
+      } catch (e) {
+        // saving error
+      }
     }
   };
 
