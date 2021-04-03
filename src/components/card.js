@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     paddingVertical: 2,
     borderRadius: 5,
-    backgroundColor: 'white',
+    backgroundColor: '#F9F6C5',
     elevation: 5,
     overflow: 'hidden',
   },

@@ -3,13 +3,14 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'cyan',
+    backgroundColor: '#FEF9DB',
   },
   fabButtonStyle: {
     alignItems: 'center',
     justifyContent: 'center',
 
     backgroundColor: '#0081D5',
+    elevation: 5,
 
     width: 50,
     height: 50,

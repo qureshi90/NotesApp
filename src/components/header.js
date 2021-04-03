@@ -14,13 +14,14 @@ const Header = props => {
 const styles = StyleSheet.create({
   container: {
     marginBottom: 5,
-    backgroundColor: 'white',
+    backgroundColor: '#A48862',
     elevation: 5,
   },
   heading: {
     margin: 10,
     marginHorizontal: 15,
     fontSize: 24,
+    color: 'white',
   },
 });
 
