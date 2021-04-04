@@ -1,18 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import {
   View,
-  // Text,
+  Text,
   // TextInput,
-  // TouchableOpacity,
-  // ScrollView,
+  TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import styles from './style.js';
-import Header from '../../components/header.js';
-// import {Icon} from 'react-native-elements';
+// import Header from '../../components/header.js';
+import {Icon} from 'react-native-elements';
 // import Modal from 'react-native-modal';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Note = () => {
+const Note = ({navigation, route}) => {
   // const [modal, setModal] = useState(false);
   // const [title, setTitle] = useState('');
   // const [description, setDescription] = useState('');
@@ -63,23 +63,24 @@ const Note = () => {
   return (
     <>
       <View style={styles.container}>
-        <Header text={'Notes'} />
-        {/* <ScrollView>
-          {notes.map((data, index) => (
-            <Card
-              key={index}
-              title={data.title}
-              description={data.description}
-              onPress={() => Delete(index)}
+        {/* <Header text={'Notes'} /> */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.backIcon}>
+            <Icon
+              type={'ionicon'}
+              name="chevron-back-outline"
+              size={36}
+              color="#fff"
             />
-          ))}
-        </ScrollView> */}
-
-        {/* <TouchableOpacity
-          onPress={() => setModal(true)}
-          style={styles.fabButtonStyle}>
-          <Icon type={'ionicon'} name="ios-add" size={36} color="#fff" />
-        </TouchableOpacity> */}
+          </TouchableOpacity>
+          <Text style={styles.heading}>{route.params.title}</Text>
+        </View>
+        <ScrollView>
+          {/* <Text style={styles.title}>{route.params.title}</Text> */}
+          <Text style={styles.description}>{route.params.description}</Text>
+        </ScrollView>
 
         {/* <Modal isVisible={modal} style={styles.modal}>
           <View>

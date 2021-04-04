@@ -72,7 +72,12 @@ const Notes = ({navigation}) => {
               title={data.title}
               description={data.description}
               delete={() => Delete(index)}
-              onPress={() => navigation.navigate('note')}
+              onPress={() =>
+                navigation.navigate('note', {
+                  title: data.title,
+                  description: data.description,
+                })
+              }
             />
           ))}
         </ScrollView>
