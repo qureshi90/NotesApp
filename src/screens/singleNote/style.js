@@ -25,6 +25,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     fontSize: 16,
   },
+  fabButtonStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    backgroundColor: '#0081D5',
+    elevation: 5,
+
+    width: 50,
+    height: 50,
+    borderRadius: 50 / 2,
+
+    position: 'absolute',
+    right: 5,
+    bottom: 5,
+    marginTop: 'auto',
+    marginLeft: 'auto',
+    marginRight: 20,
+    marginBottom: 20,
+  },
 });
 
 export default styles;

@@ -63,7 +63,6 @@ const Note = ({navigation, route}) => {
   return (
     <>
       <View style={styles.container}>
-        {/* <Header text={'Notes'} /> */}
         <View style={styles.header}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
@@ -78,9 +77,14 @@ const Note = ({navigation, route}) => {
           <Text style={styles.heading}>{route.params.title}</Text>
         </View>
         <ScrollView>
-          {/* <Text style={styles.title}>{route.params.title}</Text> */}
           <Text style={styles.description}>{route.params.description}</Text>
         </ScrollView>
+
+        <TouchableOpacity
+          // onPress={() => setModal(true)}
+          style={styles.fabButtonStyle}>
+          <Icon type={'feather'} name="edit-3" size={26} color="#fff" />
+        </TouchableOpacity>
 
         {/* <Modal isVisible={modal} style={styles.modal}>
           <View>
