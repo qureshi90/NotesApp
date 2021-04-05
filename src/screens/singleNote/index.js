@@ -2,54 +2,46 @@ import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
-  // TextInput,
+  TextInput,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
 import styles from './style.js';
-// import Header from '../../components/header.js';
 import {Icon} from 'react-native-elements';
-// import Modal from 'react-native-modal';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import Modal from 'react-native-modal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Note = ({navigation, route}) => {
-  // const [modal, setModal] = useState(false);
-  // const [title, setTitle] = useState('');
-  // const [description, setDescription] = useState('');
-  // const [notes, setNotes] = useState([]);
-  // let titleInput, descriptionInput;
+  const [modal, setModal] = useState(false);
+  const [title, setTitle] = useState(route.params.title);
+  const [description, setDescription] = useState(route.params.description);
+  const [notes, setNotes] = useState([]);
 
-  // useEffect(() => {
-  //   (async function call() {
-  //     let data = await AsyncStorage.getItem('notes');
-  //     setNotes(JSON.parse(data));
-  //   })();
-  // }, [notes]);
+  let index = route.params.index;
 
-  // const Save = async () => {
-  //   setModal(false);
+  useEffect(() => {
+    (async function call() {
+      let data = await AsyncStorage.getItem('notes');
+      setNotes(JSON.parse(data));
+    })();
+  }, [notes]);
 
-  //   if (title !== '' || description !== '') {
-  //     notes.unshift({title: title, description: description});
-  //     setTitle('');
-  //     setDescription('');
-  //     titleInput.clear();
-  //     descriptionInput.clear();
-  //     try {
-  //       await AsyncStorage.setItem('notes', JSON.stringify(notes));
-  //     } catch (e) {
-  //       // saving error
-  //     }
-  //   }
-  // };
+  const Save = async () => {
+    setModal(false);
 
-  // const Cancel = () => {
-  //   setTitle('');
-  //   setDescription('');
-  //   titleInput.clear();
-  //   descriptionInput.clear();
-  //   setModal(false);
-  // };
+    if (title !== '' || description !== '') {
+      notes[index] = {title: title, description: description};
+      try {
+        await AsyncStorage.setItem('notes', JSON.stringify(notes));
+      } catch (e) {
+        // saving error
+      }
+    }
+  };
+
+  const Cancel = () => {
+    setModal(false);
+  };
 
   // const Delete = async index => {
   //   notes.splice(index, 1);
@@ -74,34 +66,32 @@ const Note = ({navigation, route}) => {
               color="#fff"
             />
           </TouchableOpacity>
-          <Text style={styles.heading}>{route.params.title}</Text>
+          <Text style={styles.heading}>{title}</Text>
         </View>
         <ScrollView>
-          <Text style={styles.description}>{route.params.description}</Text>
+          <Text style={styles.description}>{description}</Text>
         </ScrollView>
 
         <TouchableOpacity
-          // onPress={() => setModal(true)}
+          onPress={() => setModal(true)}
           style={styles.fabButtonStyle}>
           <Icon type={'feather'} name="edit-3" size={26} color="#fff" />
         </TouchableOpacity>
 
-        {/* <Modal isVisible={modal} style={styles.modal}>
+        <Modal isVisible={modal} style={styles.modal}>
           <View>
             <TextInput
               style={styles.title}
               placeholder={'title'}
               value={title}
               onChangeText={text => setTitle(text)}
-              ref={input => (titleInput = input)}
             />
             <TextInput
-              style={styles.description}
+              style={styles.modalDescription}
               placeholder={'description'}
               multiline={true}
               value={description}
               onChangeText={text => setDescription(text)}
-              ref={input => (descriptionInput = input)}
             />
           </View>
           <View style={styles.buttons}>
@@ -112,7 +102,7 @@ const Note = ({navigation, route}) => {
               Save
             </Text>
           </View>
-        </Modal> */}
+        </Modal>
       </View>
     </>
   );

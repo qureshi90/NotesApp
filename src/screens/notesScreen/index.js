@@ -74,6 +74,7 @@ const Notes = ({navigation}) => {
               delete={() => Delete(index)}
               onPress={() =>
                 navigation.navigate('note', {
+                  index: index,
                   title: data.title,
                   description: data.description,
                 })
