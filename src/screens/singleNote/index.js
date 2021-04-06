@@ -40,6 +40,8 @@ const Note = ({navigation, route}) => {
   };
 
   const Cancel = () => {
+    setTitle(route.params.title);
+    setDescription(route.params.description);
     setModal(false);
   };
 
