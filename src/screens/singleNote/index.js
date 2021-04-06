@@ -7,18 +7,17 @@ import {
   ScrollView,
 } from 'react-native';
 import styles from './style.js';
-import Header from '../../components/header.js';
-import Card from '../../components/card.js';
 import {Icon} from 'react-native-elements';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Notes = ({navigation}) => {
+const Note = ({navigation, route}) => {
   const [modal, setModal] = useState(false);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState(route.params.title);
+  const [description, setDescription] = useState(route.params.description);
   const [notes, setNotes] = useState([]);
-  let titleInput, descriptionInput;
+
+  let index = route.params.index;
 
   useEffect(() => {
     (async function call() {
@@ -31,11 +30,7 @@ const Notes = ({navigation}) => {
     setModal(false);
 
     if (title !== '' || description !== '') {
-      notes.unshift({title: title, description: description});
-      setTitle('');
-      setDescription('');
-      titleInput.clear();
-      descriptionInput.clear();
+      notes[index] = {title: title, description: description};
       try {
         await AsyncStorage.setItem('notes', JSON.stringify(notes));
       } catch (e) {
@@ -45,48 +40,44 @@ const Notes = ({navigation}) => {
   };
 
   const Cancel = () => {
-    setTitle('');
-    setDescription('');
-    titleInput.clear();
-    descriptionInput.clear();
+    setTitle(route.params.title);
+    setDescription(route.params.description);
     setModal(false);
   };
 
-  const Delete = async index => {
-    notes.splice(index, 1);
-    try {
-      await AsyncStorage.setItem('notes', JSON.stringify(notes));
-    } catch (e) {
-      // saving error
-    }
-  };
+  // const Delete = async index => {
+  //   notes.splice(index, 1);
+  //   try {
+  //     await AsyncStorage.setItem('notes', JSON.stringify(notes));
+  //   } catch (e) {
+  //     // saving error
+  //   }
+  // };
 
   return (
     <>
       <View style={styles.container}>
-        <Header text={'Notes'} />
-        <ScrollView>
-          {notes.map((data, index) => (
-            <Card
-              key={index}
-              title={data.title}
-              description={data.description}
-              delete={() => Delete(index)}
-              onPress={() =>
-                navigation.navigate('note', {
-                  index: index,
-                  title: data.title,
-                  description: data.description,
-                })
-              }
+        <View style={styles.header}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.backIcon}>
+            <Icon
+              type={'ionicon'}
+              name="chevron-back-outline"
+              size={36}
+              color="#fff"
             />
-          ))}
+          </TouchableOpacity>
+          <Text style={styles.heading}>{title}</Text>
+        </View>
+        <ScrollView>
+          <Text style={styles.description}>{description}</Text>
         </ScrollView>
 
         <TouchableOpacity
           onPress={() => setModal(true)}
           style={styles.fabButtonStyle}>
-          <Icon type={'ionicon'} name="ios-add" size={36} color="#fff" />
+          <Icon type={'feather'} name="edit-3" size={26} color="#fff" />
         </TouchableOpacity>
 
         <Modal isVisible={modal} style={styles.modal}>
@@ -96,15 +87,13 @@ const Notes = ({navigation}) => {
               placeholder={'title'}
               value={title}
               onChangeText={text => setTitle(text)}
-              ref={input => (titleInput = input)}
             />
             <TextInput
-              style={styles.description}
+              style={styles.modalDescription}
               placeholder={'description'}
               multiline={true}
               value={description}
               onChangeText={text => setDescription(text)}
-              ref={input => (descriptionInput = input)}
             />
           </View>
           <View style={styles.buttons}>
@@ -121,4 +110,4 @@ const Notes = ({navigation}) => {
   );
 };
 
-export default Notes;
+export default Note;

@@ -3,26 +3,27 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FEF9DB',
+    backgroundColor: '#F9F6C5',
   },
-  fabButtonStyle: {
+  header: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-
-    backgroundColor: '#0081D5',
+    marginBottom: 5,
+    backgroundColor: '#A48862',
     elevation: 5,
-
-    width: 50,
-    height: 50,
-    borderRadius: 50 / 2,
-
-    position: 'absolute',
-    right: 5,
-    bottom: 5,
-    marginTop: 'auto',
-    marginLeft: 'auto',
-    marginRight: 20,
-    marginBottom: 20,
+  },
+  backIcon: {
+    marginLeft: 5,
+  },
+  heading: {
+    margin: 10,
+    fontSize: 24,
+    color: 'white',
+  },
+  description: {
+    padding: 10,
+    paddingHorizontal: 15,
+    fontSize: 16,
   },
   modal: {
     marginHorizontal: '10%',
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     backgroundColor: 'transparent',
   },
-  description: {
+  modalDescription: {
     backgroundColor: 'transparent',
   },
   buttons: {
@@ -56,6 +57,25 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#0081D5',
     color: 'white',
+  },
+  fabButtonStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    backgroundColor: '#0081D5',
+    elevation: 5,
+
+    width: 50,
+    height: 50,
+    borderRadius: 50 / 2,
+
+    position: 'absolute',
+    right: 5,
+    bottom: 5,
+    marginTop: 'auto',
+    marginLeft: 'auto',
+    marginRight: 20,
+    marginBottom: 20,
   },
 });
 
