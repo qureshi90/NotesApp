@@ -39,6 +39,17 @@ const styles = StyleSheet.create({
   description: {
     backgroundColor: 'transparent',
   },
+  bottomTab: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  checkContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkText: {
+    color: 'gray',
+  },
   buttons: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
