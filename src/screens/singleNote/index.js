@@ -19,6 +19,7 @@ const Note = ({navigation, route}) => {
   const [description, setDescription] = useState([]);
   const [notes, setNotes] = useState([]);
   const [check, setCheck] = useState(false);
+  const [bullet, setBullet] = useState(false);
   const [descString, setDescString] = useState('');
 
   let index = route.params.index;
@@ -32,6 +33,7 @@ const Note = ({navigation, route}) => {
         setTitle(notes[index].title);
         setDescription(notes[index].description);
         setCheck(notes[index].checkStatus);
+        setBullet(notes[index].bullet);
         setDescString(notes[index].description.join('\n'));
       }
     })();
@@ -44,6 +46,7 @@ const Note = ({navigation, route}) => {
       notes[index] = {
         title: title,
         checkStatus: check,
+        bullet: bullet,
         description: descString.split('\n'),
       };
       try {
@@ -55,8 +58,8 @@ const Note = ({navigation, route}) => {
   };
 
   const Cancel = () => {
-    setTitle(route.params.title);
-    setDescription(route.params.description);
+    setTitle(notes[index].title);
+    setDescription(notes[index].description);
     setModal(false);
   };
 
@@ -87,7 +90,7 @@ const Note = ({navigation, route}) => {
         </View>
         <ScrollView>
           {description.map(data => (
-            <Description status={check} data={data} />
+            <Description status={check} bullet={bullet} data={data} />
           ))}
         </ScrollView>
 
@@ -116,9 +119,25 @@ const Note = ({navigation, route}) => {
             </ScrollView>
           </View>
           <View style={styles.bottomTab}>
-            <View style={styles.checkContainer}>
-              <Switch value={check} onValueChange={() => setCheck(!check)} />
-              <Text style={styles.checkText}>Check</Text>
+            <View>
+              <View style={styles.checkContainer}>
+                <Switch
+                  value={check}
+                  onValueChange={() => {
+                    setCheck(!check);
+                    setBullet(false);
+                  }}
+                />
+                <Text style={styles.checkText}>Check</Text>
+              </View>
+              <View style={styles.checkContainer}>
+                <Switch
+                  disabled={check}
+                  value={bullet}
+                  onValueChange={() => setBullet(!bullet)}
+                />
+                <Text style={styles.checkText}>Bullet</Text>
+              </View>
             </View>
             <View style={styles.buttons}>
               <Text style={styles.cancelButton} onPress={Cancel}>

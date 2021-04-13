@@ -20,6 +20,11 @@ const Description = props => {
             />
             {/* <Text style={styles.description}>{props.data}</Text> */}
           </View>
+        ) : props.bullet === true ? (
+          <View style={styles.subContainer}>
+            <Text style={styles.bullet}>{'\u2022'}</Text>
+            <Text style={styles.description}>{props.data}</Text>
+          </View>
         ) : (
           <Text style={styles.description}>{props.data}</Text>
         )}
@@ -52,6 +57,13 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     fontSize: 16,
     marginLeft: 5,
+  },
+  subContainer: {
+    flexDirection: 'row',
+  },
+  bullet: {
+    fontSize: 25,
+    marginLeft: 15,
   },
 });
 
