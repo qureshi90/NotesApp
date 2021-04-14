@@ -96,6 +96,7 @@ const Note = ({navigation, route}) => {
 
         <TouchableOpacity
           onPress={() => setModal(true)}
+          // onPress={() => navigation.navigate('new-note')}
           style={styles.fabButtonStyle}>
           <Icon type={'feather'} name="edit-3" size={26} color="#fff" />
         </TouchableOpacity>

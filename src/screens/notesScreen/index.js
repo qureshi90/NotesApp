@@ -96,7 +96,8 @@ const Notes = ({navigation}) => {
         </ScrollView>
 
         <TouchableOpacity
-          onPress={() => setModal(true)}
+          // onPress={() => setModal(true)}
+          onPress={() => navigation.navigate('new-note')}
           style={styles.fabButtonStyle}>
           <Icon type={'ionicon'} name="ios-add" size={36} color="#fff" />
         </TouchableOpacity>
