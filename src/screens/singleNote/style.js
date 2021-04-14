@@ -20,11 +20,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: 'white',
   },
-  description: {
-    padding: 10,
-    paddingHorizontal: 15,
-    fontSize: 16,
-  },
   modal: {
     marginHorizontal: '10%',
     marginVertical: '20%',
@@ -33,12 +28,26 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'space-between',
   },
+  modalInput: {
+    height: '85%',
+  },
   title: {
     borderBottomWidth: 1,
     backgroundColor: 'transparent',
   },
   modalDescription: {
     backgroundColor: 'transparent',
+  },
+  bottomTab: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  checkContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkText: {
+    color: 'gray',
   },
   buttons: {
     flexDirection: 'row',

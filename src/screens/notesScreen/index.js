@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Switch,
 } from 'react-native';
 import styles from './style.js';
 import Header from '../../components/header.js';
@@ -18,6 +19,8 @@ const Notes = ({navigation}) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [notes, setNotes] = useState([]);
+  const [check, setCheck] = useState(false);
+  const [bullet, setBullet] = useState(false);
   let titleInput, descriptionInput;
 
   useEffect(() => {
@@ -31,11 +34,18 @@ const Notes = ({navigation}) => {
     setModal(false);
 
     if (title !== '' || description !== '') {
-      notes.unshift({title: title, description: description});
+      notes.unshift({
+        title: title,
+        checkStatus: check,
+        bullet: bullet,
+        description: description.split('\n'),
+      });
       setTitle('');
       setDescription('');
       titleInput.clear();
       descriptionInput.clear();
+      setCheck(false);
+      setBullet(false);
       try {
         await AsyncStorage.setItem('notes', JSON.stringify(notes));
       } catch (e) {
@@ -50,6 +60,8 @@ const Notes = ({navigation}) => {
     titleInput.clear();
     descriptionInput.clear();
     setModal(false);
+    setCheck(false);
+    setBullet(false);
   };
 
   const Delete = async index => {
@@ -70,7 +82,7 @@ const Notes = ({navigation}) => {
             <Card
               key={index}
               title={data.title}
-              description={data.description}
+              description={data.description[0]}
               delete={() => Delete(index)}
               onPress={() =>
                 navigation.navigate('note', {
@@ -107,13 +119,35 @@ const Notes = ({navigation}) => {
               ref={input => (descriptionInput = input)}
             />
           </View>
-          <View style={styles.buttons}>
-            <Text style={styles.cancelButton} onPress={Cancel}>
-              Cancel
-            </Text>
-            <Text style={styles.saveButton} onPress={Save}>
-              Save
-            </Text>
+          <View style={styles.bottomTab}>
+            <View>
+              <View style={styles.checkContainer}>
+                <Switch
+                  value={check}
+                  onValueChange={() => {
+                    setCheck(!check);
+                    setBullet(false);
+                  }}
+                />
+                <Text style={styles.checkText}>Check</Text>
+              </View>
+              <View style={styles.checkContainer}>
+                <Switch
+                  disabled={check}
+                  value={bullet}
+                  onValueChange={() => setBullet(!bullet)}
+                />
+                <Text style={styles.checkText}>Bullet</Text>
+              </View>
+            </View>
+            <View style={styles.buttons}>
+              <Text style={styles.cancelButton} onPress={Cancel}>
+                Cancel
+              </Text>
+              <Text style={styles.saveButton} onPress={Save}>
+                Save
+              </Text>
+            </View>
           </View>
         </Modal>
       </View>

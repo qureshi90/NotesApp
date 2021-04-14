@@ -5,17 +5,22 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Switch,
 } from 'react-native';
 import styles from './style.js';
 import {Icon} from 'react-native-elements';
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Description from '../../components/description.js';
 
 const Note = ({navigation, route}) => {
   const [modal, setModal] = useState(false);
-  const [title, setTitle] = useState(route.params.title);
-  const [description, setDescription] = useState(route.params.description);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState([]);
   const [notes, setNotes] = useState([]);
+  const [check, setCheck] = useState(false);
+  const [bullet, setBullet] = useState(false);
+  const [descString, setDescString] = useState('');
 
   let index = route.params.index;
 
@@ -23,14 +28,27 @@ const Note = ({navigation, route}) => {
     (async function call() {
       let data = await AsyncStorage.getItem('notes');
       setNotes(JSON.parse(data));
+
+      if (!modal) {
+        setTitle(notes[index].title);
+        setDescription(notes[index].description);
+        setCheck(notes[index].checkStatus);
+        setBullet(notes[index].bullet);
+        setDescString(notes[index].description.join('\n'));
+      }
     })();
-  }, [notes]);
+  }, [index, modal, notes, title]);
 
   const Save = async () => {
     setModal(false);
 
     if (title !== '' || description !== '') {
-      notes[index] = {title: title, description: description};
+      notes[index] = {
+        title: title,
+        checkStatus: check,
+        bullet: bullet,
+        description: descString.split('\n'),
+      };
       try {
         await AsyncStorage.setItem('notes', JSON.stringify(notes));
       } catch (e) {
@@ -40,8 +58,8 @@ const Note = ({navigation, route}) => {
   };
 
   const Cancel = () => {
-    setTitle(route.params.title);
-    setDescription(route.params.description);
+    setTitle(notes[index].title);
+    setDescription(notes[index].description);
     setModal(false);
   };
 
@@ -71,7 +89,9 @@ const Note = ({navigation, route}) => {
           <Text style={styles.heading}>{title}</Text>
         </View>
         <ScrollView>
-          <Text style={styles.description}>{description}</Text>
+          {description.map(data => (
+            <Description status={check} bullet={bullet} data={data} />
+          ))}
         </ScrollView>
 
         <TouchableOpacity
@@ -81,28 +101,52 @@ const Note = ({navigation, route}) => {
         </TouchableOpacity>
 
         <Modal isVisible={modal} style={styles.modal}>
-          <View>
+          <View style={styles.modalInput}>
             <TextInput
               style={styles.title}
               placeholder={'title'}
               value={title}
               onChangeText={text => setTitle(text)}
             />
-            <TextInput
-              style={styles.modalDescription}
-              placeholder={'description'}
-              multiline={true}
-              value={description}
-              onChangeText={text => setDescription(text)}
-            />
+            <ScrollView>
+              <TextInput
+                style={styles.modalDescription}
+                placeholder={'description'}
+                multiline={true}
+                value={descString}
+                onChangeText={text => setDescString(text)}
+              />
+            </ScrollView>
           </View>
-          <View style={styles.buttons}>
-            <Text style={styles.cancelButton} onPress={Cancel}>
-              Cancel
-            </Text>
-            <Text style={styles.saveButton} onPress={Save}>
-              Save
-            </Text>
+          <View style={styles.bottomTab}>
+            <View>
+              <View style={styles.checkContainer}>
+                <Switch
+                  value={check}
+                  onValueChange={() => {
+                    setCheck(!check);
+                    setBullet(false);
+                  }}
+                />
+                <Text style={styles.checkText}>Check</Text>
+              </View>
+              <View style={styles.checkContainer}>
+                <Switch
+                  disabled={check}
+                  value={bullet}
+                  onValueChange={() => setBullet(!bullet)}
+                />
+                <Text style={styles.checkText}>Bullet</Text>
+              </View>
+            </View>
+            <View style={styles.buttons}>
+              <Text style={styles.cancelButton} onPress={Cancel}>
+                Cancel
+              </Text>
+              <Text style={styles.saveButton} onPress={Save}>
+                Save
+              </Text>
+            </View>
           </View>
         </Modal>
       </View>
