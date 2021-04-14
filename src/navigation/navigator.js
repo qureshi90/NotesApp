@@ -13,7 +13,6 @@ const Navigator = () => {
   LogBox.ignoreLogs([
     "Can't perform a React state update on an unmounted component",
     'Possible Unhandled Promise Rejection',
-    'Each child in a list should have a unique "key" prop.',
   ]);
   return (
     <NavigationContainer>

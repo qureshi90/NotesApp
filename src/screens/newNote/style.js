@@ -29,6 +29,10 @@ const styles = StyleSheet.create({
   scrollContainer: {
     marginHorizontal: 10,
   },
+  title: {
+    borderBottomWidth: 1,
+    borderColor: 'gray',
+  },
 });
 
 export default styles;

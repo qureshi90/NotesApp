@@ -87,8 +87,8 @@ const Notes = ({navigation}) => {
               onPress={() =>
                 navigation.navigate('note', {
                   index: index,
-                  title: data.title,
-                  description: data.description,
+                  // title: data.title,
+                  // description: data.description,
                 })
               }
             />
@@ -97,7 +97,9 @@ const Notes = ({navigation}) => {
 
         <TouchableOpacity
           // onPress={() => setModal(true)}
-          onPress={() => navigation.navigate('new-note')}
+          onPress={() =>
+            navigation.navigate('new-note', {title: 'Create Note'})
+          }
           style={styles.fabButtonStyle}>
           <Icon type={'ionicon'} name="ios-add" size={36} color="#fff" />
         </TouchableOpacity>

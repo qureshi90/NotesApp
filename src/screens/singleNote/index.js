@@ -77,7 +77,7 @@ const Note = ({navigation, route}) => {
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate('notes')}
             style={styles.backIcon}>
             <Icon
               type={'ionicon'}
@@ -89,14 +89,16 @@ const Note = ({navigation, route}) => {
           <Text style={styles.heading}>{title}</Text>
         </View>
         <ScrollView>
-          {description.map(data => (
-            <Description status={check} bullet={bullet} data={data} />
+          {description.map((data, i) => (
+            <Description key={i} status={check} bullet={bullet} data={data} />
           ))}
         </ScrollView>
 
         <TouchableOpacity
-          onPress={() => setModal(true)}
-          // onPress={() => navigation.navigate('new-note')}
+          // onPress={() => setModal(true)}
+          onPress={() =>
+            navigation.navigate('new-note', {index: index, title: 'Edit Note'})
+          }
           style={styles.fabButtonStyle}>
           <Icon type={'feather'} name="edit-3" size={26} color="#fff" />
         </TouchableOpacity>

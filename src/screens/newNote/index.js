@@ -10,37 +10,52 @@ import styles from './style.js';
 import {Icon} from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const NewNote = ({navigation}) => {
+const NewNote = ({navigation, route}) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [notes, setNotes] = useState([]);
 
+  let index = route.params.index;
+
   useEffect(() => {
     (async function call() {
-      let data = await AsyncStorage.getItem('notes');
-      setNotes(JSON.parse(data));
+      if (title === '' && description === '') {
+        let data = await AsyncStorage.getItem('notes');
+        setNotes(JSON.parse(data));
+        setTitle(notes[index].title);
+        setDescription(notes[index].description.join('\n'));
+      }
     })();
-  }, [notes]);
+  }, [description, index, notes, title]);
 
   const Save = async () => {
     if (title !== '' || description !== '') {
-      notes.unshift({
-        title: title,
-        // checkStatus: check,
-        // bullet: bullet,
-        description: description.split('\n'),
-      });
-      setTitle('');
-      setDescription('');
-      navigation.navigate('note', {index: 0});
-      // titleInput.clear();
-      // descriptionInput.clear();
-      // setCheck(false);
-      // setBullet(false);
-      try {
-        await AsyncStorage.setItem('notes', JSON.stringify(notes));
-      } catch (e) {
-        // saving error
+      if (!isNaN(index)) {
+        notes[index] = {
+          title: title,
+          // checkStatus: check,
+          // bullet: bullet,
+          description: description.split('\n'),
+        };
+        try {
+          await AsyncStorage.setItem('notes', JSON.stringify(notes));
+        } catch (e) {
+          // saving error
+        }
+        navigation.navigate('note', {index: index});
+      } else {
+        notes.unshift({
+          title: title,
+          // checkStatus: check,
+          // bullet: bullet,
+          description: description.split('\n'),
+        });
+        try {
+          await AsyncStorage.setItem('notes', JSON.stringify(notes));
+        } catch (e) {
+          // saving error
+        }
+        navigation.navigate('note', {index: 0});
       }
     }
   };
@@ -58,7 +73,7 @@ const NewNote = ({navigation}) => {
             color="#fff"
           />
         </TouchableOpacity>
-        <Text style={styles.heading}>Create a new note</Text>
+        <Text style={styles.heading}>{route.params.title}</Text>
         <Text style={styles.saveButton} onPress={Save}>
           Save
         </Text>
