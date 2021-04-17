@@ -100,9 +100,9 @@ const NewNote = ({navigation, route}) => {
           />
         </TouchableOpacity>
         <Text style={styles.heading}>{route.params.title}</Text>
-        <Text style={styles.saveButton} onPress={Save}>
-          Save
-        </Text>
+        <TouchableOpacity style={styles.saveButton} onPress={Save}>
+          <Text style={styles.saveText}>Save</Text>
+        </TouchableOpacity>
       </View>
       <ScrollView style={styles.scrollContainer}>
         <TextInput

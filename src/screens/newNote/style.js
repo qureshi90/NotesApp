@@ -22,7 +22,9 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     position: 'absolute',
-    right: 10,
+    right: 15,
+  },
+  saveText: {
     fontSize: 20,
     color: 'white',
   },
