@@ -60,6 +60,9 @@ const styles = StyleSheet.create({
   description: {
     flex: 1,
   },
+  item: {
+    flexDirection: 'row',
+  },
 });
 
 export default styles;

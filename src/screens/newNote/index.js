@@ -29,15 +29,18 @@ const NewNote = ({navigation, route}) => {
 
   useEffect(() => {
     (async function call() {
-      let data = await AsyncStorage.getItem('notes');
-      setNotes(JSON.parse(data));
-      setTitle(notes[index].title);
-      setDescription(notes[index].description.join('\n'));
-      setDescArray(notes[index].description);
-      setCheck(notes[index].checkStatus);
-      setBullet(notes[index].bullet);
+      if (description === '') {
+        let data = await AsyncStorage.getItem('notes');
+        setNotes(JSON.parse(data));
+        setTitle(notes[index].title);
+        setDescription(notes[index].description.join('\n'));
+        setDescArray(notes[index].description);
+        setCheck(notes[index].checkStatus);
+        setBullet(notes[index].bullet);
+      }
     })();
-  }, [index, notes]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notes]);
 
   const Save = async () => {
     if (title !== '' || description !== '') {
@@ -111,7 +114,7 @@ const NewNote = ({navigation, route}) => {
         <View>
           {check === true ? (
             descArray.map((data, i) => (
-              <View key={i} style={{flexDirection: 'row'}}>
+              <View key={i} style={styles.item}>
                 <Box />
                 <TextInput
                   value={data}
@@ -126,7 +129,7 @@ const NewNote = ({navigation, route}) => {
             ))
           ) : bullet === true ? (
             descArray.map((data, i) => (
-              <View key={i} style={{flexDirection: 'row'}}>
+              <View key={i} style={styles.item}>
                 <Text style={styles.bullet}>{'\u2022'}</Text>
                 <TextInput
                   value={data}
