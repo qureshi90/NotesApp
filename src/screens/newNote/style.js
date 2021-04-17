@@ -52,6 +52,14 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginBottom: 20,
   },
+  bullet: {
+    fontSize: 25,
+    marginHorizontal: 10,
+    paddingTop: 10,
+  },
+  description: {
+    flex: 1,
+  },
 });
 
 export default styles;

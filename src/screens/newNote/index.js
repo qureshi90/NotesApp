@@ -15,10 +15,12 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
+import Box from '../../components/checkBox.js';
 
 const NewNote = ({navigation, route}) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [descArray, setDescArray] = useState(['']);
   const [notes, setNotes] = useState([]);
   const [check, setCheck] = useState(false);
   const [bullet, setBullet] = useState(false);
@@ -27,16 +29,15 @@ const NewNote = ({navigation, route}) => {
 
   useEffect(() => {
     (async function call() {
-      if (title === '' && description === '') {
-        let data = await AsyncStorage.getItem('notes');
-        setNotes(JSON.parse(data));
-        setTitle(notes[index].title);
-        setDescription(notes[index].description.join('\n'));
-        setCheck(notes[index].checkStatus);
-        setBullet(notes[index].bullet);
-      }
+      let data = await AsyncStorage.getItem('notes');
+      setNotes(JSON.parse(data));
+      setTitle(notes[index].title);
+      setDescription(notes[index].description.join('\n'));
+      setDescArray(notes[index].description);
+      setCheck(notes[index].checkStatus);
+      setBullet(notes[index].bullet);
     })();
-  }, [description, index, notes, title]);
+  }, [index, notes]);
 
   const Save = async () => {
     if (title !== '' || description !== '') {
@@ -45,7 +46,7 @@ const NewNote = ({navigation, route}) => {
           title: title,
           checkStatus: check,
           bullet: bullet,
-          description: description.split('\n'),
+          description: description === '' ? descArray : description.split('\n'),
         };
         try {
           await AsyncStorage.setItem('notes', JSON.stringify(notes));
@@ -58,7 +59,7 @@ const NewNote = ({navigation, route}) => {
           title: title,
           checkStatus: check,
           bullet: bullet,
-          description: description.split('\n'),
+          description: description === '' ? descArray : description.split('\n'),
         });
         try {
           await AsyncStorage.setItem('notes', JSON.stringify(notes));
@@ -68,6 +69,18 @@ const NewNote = ({navigation, route}) => {
         navigation.navigate('note', {index: 0});
       }
     }
+  };
+
+  const handleKeyPress = e => {
+    if (e.nativeEvent.key === 'Enter') {
+      descArray.push('');
+      setDescArray(descArray);
+    }
+  };
+
+  const handleText = (text, i) => {
+    descArray[i] = text;
+    setDescArray(descArray);
   };
 
   return (
@@ -95,13 +108,47 @@ const NewNote = ({navigation, route}) => {
           value={title}
           onChangeText={text => setTitle(text)}
         />
-        <TextInput
-          style={styles.description}
-          placeholder={'Add description'}
-          multiline={true}
-          value={description}
-          onChangeText={text => setDescription(text)}
-        />
+        <View>
+          {check === true ? (
+            descArray.map((data, i) => (
+              <View key={i} style={{flexDirection: 'row'}}>
+                <Box />
+                <TextInput
+                  value={data}
+                  autoFocus={true}
+                  multiline={true}
+                  style={styles.description}
+                  placeholder={'Add description'}
+                  onChangeText={text => handleText(text, i)}
+                  onKeyPress={handleKeyPress}
+                />
+              </View>
+            ))
+          ) : bullet === true ? (
+            descArray.map((data, i) => (
+              <View key={i} style={{flexDirection: 'row'}}>
+                <Text style={styles.bullet}>{'\u2022'}</Text>
+                <TextInput
+                  value={data}
+                  autoFocus={true}
+                  multiline={true}
+                  style={styles.description}
+                  placeholder={'Add description'}
+                  onChangeText={text => handleText(text, i)}
+                  onKeyPress={handleKeyPress}
+                />
+              </View>
+            ))
+          ) : (
+            <TextInput
+              style={styles.description}
+              placeholder={'Add description'}
+              multiline={true}
+              value={description}
+              onChangeText={text => setDescription(text)}
+            />
+          )}
+        </View>
       </ScrollView>
       <View style={styles.fabButtonStyle}>
         <Menu>
