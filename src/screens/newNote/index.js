@@ -5,10 +5,12 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
+  Image,
 } from 'react-native';
 import styles from './style.js';
 import {Icon} from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ImagePicker from 'react-native-image-crop-picker';
 import {
   Menu,
   MenuOptions,
@@ -24,6 +26,7 @@ const NewNote = ({navigation, route}) => {
   const [notes, setNotes] = useState([]);
   const [check, setCheck] = useState(false);
   const [bullet, setBullet] = useState(false);
+  const [uri, setUri] = useState('');
 
   let index = route.params.index;
 
@@ -37,6 +40,7 @@ const NewNote = ({navigation, route}) => {
         setDescArray(notes[index].description);
         setCheck(notes[index].checkStatus);
         setBullet(notes[index].bullet);
+        setUri(notes[index].imageUri);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,6 +54,7 @@ const NewNote = ({navigation, route}) => {
           checkStatus: check,
           bullet: bullet,
           description: description === '' ? descArray : description.split('\n'),
+          imageUri: uri,
         };
         try {
           await AsyncStorage.setItem('notes', JSON.stringify(notes));
@@ -63,6 +68,7 @@ const NewNote = ({navigation, route}) => {
           checkStatus: check,
           bullet: bullet,
           description: description === '' ? descArray : description.split('\n'),
+          imageUri: uri,
         });
         try {
           await AsyncStorage.setItem('notes', JSON.stringify(notes));
@@ -84,6 +90,17 @@ const NewNote = ({navigation, route}) => {
   const handleText = (text, i) => {
     descArray[i] = text;
     setDescArray(descArray);
+  };
+
+  const Pick = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+      setUri(image.path);
+    });
   };
 
   return (
@@ -152,6 +169,7 @@ const NewNote = ({navigation, route}) => {
             />
           )}
         </View>
+        {uri !== '' && <Image source={{uri: uri}} style={styles.image} />}
       </ScrollView>
       <View style={styles.fabButtonStyle}>
         <Menu>
@@ -177,6 +195,12 @@ const NewNote = ({navigation, route}) => {
                 setCheck(false);
               }}>
               {bullet ? <Text>Remove Bullets</Text> : <Text>Add Bullets</Text>}
+            </MenuOption>
+            <MenuOption
+              onSelect={() => {
+                uri === '' ? Pick() : setUri('');
+              }}>
+              {uri ? <Text>Remove Image</Text> : <Text>Add Image</Text>}
             </MenuOption>
           </MenuOptions>
         </Menu>

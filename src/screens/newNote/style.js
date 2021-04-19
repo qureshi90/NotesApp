@@ -65,6 +65,12 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
   },
+  image: {
+    height: 300,
+    width: 300,
+    alignSelf: 'center',
+    borderRadius: 10,
+  },
 });
 
 export default styles;

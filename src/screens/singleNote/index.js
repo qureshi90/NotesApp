@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView, Image} from 'react-native';
 import styles from './style.js';
 import {Icon} from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,6 +11,7 @@ const Note = ({navigation, route}) => {
   const [notes, setNotes] = useState([]);
   const [check, setCheck] = useState(false);
   const [bullet, setBullet] = useState(false);
+  const [uri, setUri] = useState('');
 
   let index = route.params.index;
 
@@ -22,6 +23,7 @@ const Note = ({navigation, route}) => {
       setDescription(notes[index].description);
       setCheck(notes[index].checkStatus);
       setBullet(notes[index].bullet);
+      setUri(notes[index].imageUri);
     })();
   }, [index, notes, title]);
 
@@ -45,6 +47,7 @@ const Note = ({navigation, route}) => {
           {description.map((data, i) => (
             <Description key={i} status={check} bullet={bullet} data={data} />
           ))}
+          {uri !== '' && <Image source={{uri: uri}} style={styles.image} />}
         </ScrollView>
 
         <TouchableOpacity
