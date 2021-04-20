@@ -47,13 +47,13 @@ const NewNote = ({navigation, route}) => {
   }, [notes]);
 
   const Save = async () => {
-    if (title !== '' || description !== '') {
+    if (title !== '' || description !== '' || descArray !== ['']) {
       if (!isNaN(index)) {
         notes[index] = {
           title: title,
           checkStatus: check,
           bullet: bullet,
-          description: description === '' ? descArray : description.split('\n'),
+          description: check || bullet ? descArray : description.split('\n'),
           imageUri: uri,
         };
         try {
@@ -67,7 +67,7 @@ const NewNote = ({navigation, route}) => {
           title: title,
           checkStatus: check,
           bullet: bullet,
-          description: description === '' ? descArray : description.split('\n'),
+          description: check || bullet ? descArray : description.split('\n'),
           imageUri: uri,
         });
         try {

@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   image: {
+    marginTop: 10,
     height: 300,
     width: 300,
     alignSelf: 'center',
