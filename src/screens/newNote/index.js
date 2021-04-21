@@ -82,11 +82,17 @@ const NewNote = ({navigation, route}) => {
     }
   };
 
-  const handleKeyPress = e => {
-    if (e.nativeEvent.key === 'Enter') {
-      descArray.push('');
+  const handleKeyPress = (e, i) => {
+    if (e.key === 'Enter') {
+      descArray.splice(i + 1, 0, '');
       setDescArray(descArray);
       forceUpdate();
+    }
+    if (e.key === 'Backspace') {
+      if (descArray[i] === '') {
+        descArray.splice(i, 1);
+        forceUpdate();
+      }
     }
   };
 
@@ -144,7 +150,8 @@ const NewNote = ({navigation, route}) => {
                   style={styles.description}
                   placeholder={'Add description'}
                   onChangeText={text => handleText(text, i)}
-                  onKeyPress={handleKeyPress}
+                  // onKeyPress={handleKeyPress}
+                  onKeyPress={({nativeEvent}) => handleKeyPress(nativeEvent, i)}
                 />
               </View>
             ))
@@ -159,7 +166,8 @@ const NewNote = ({navigation, route}) => {
                   style={styles.description}
                   placeholder={'Add description'}
                   onChangeText={text => handleText(text, i)}
-                  onKeyPress={handleKeyPress}
+                  // onKeyPress={data === '' ? Remove(i) : e => handleKeyPress(e, i)}
+                  onKeyPress={({nativeEvent}) => handleKeyPress(nativeEvent, i)}
                 />
               </View>
             ))
