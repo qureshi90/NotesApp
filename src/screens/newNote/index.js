@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   View,
   Text,
@@ -27,8 +27,10 @@ const NewNote = ({navigation, route}) => {
   const [check, setCheck] = useState(false);
   const [bullet, setBullet] = useState(false);
   const [uri, setUri] = useState('');
+  const [index] = useState(route.params.index);
 
-  let index = route.params.index;
+  const [, updateState] = useState();
+  const forceUpdate = useCallback(() => updateState({}), []);
 
   useEffect(() => {
     (async function call() {
@@ -84,12 +86,14 @@ const NewNote = ({navigation, route}) => {
     if (e.nativeEvent.key === 'Enter') {
       descArray.push('');
       setDescArray(descArray);
+      forceUpdate();
     }
   };
 
   const handleText = (text, i) => {
     descArray[i] = text;
     setDescArray(descArray);
+    forceUpdate();
   };
 
   const Pick = () => {
