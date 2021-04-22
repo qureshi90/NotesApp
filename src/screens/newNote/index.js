@@ -91,9 +91,11 @@ const NewNote = ({navigation, route}) => {
       forceUpdate();
     }
     if (e.key === 'Backspace') {
-      if (descArray[i] === '') {
-        descArray.splice(i, 1);
-        forceUpdate();
+      if (descArray.length > 1) {
+        if (descArray[i] === '') {
+          descArray.splice(i, 1);
+          forceUpdate();
+        }
       }
     }
   };
