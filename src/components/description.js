@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-// import CheckBox from '@react-native-community/checkbox';
 import {CheckBox} from 'react-native-elements';
 
 const Description = props => {
@@ -18,7 +17,6 @@ const Description = props => {
               containerStyle={[styles.checkStyle, styles.description]}
               onPress={() => setCheck(!check)}
             />
-            {/* <Text style={styles.description}>{props.data}</Text> */}
           </View>
         ) : props.bullet === true ? (
           <View style={styles.subContainer}>
