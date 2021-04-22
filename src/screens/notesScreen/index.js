@@ -30,19 +30,20 @@ const Notes = ({navigation}) => {
       <View style={styles.container}>
         <Header text={'Notes'} />
         <ScrollView>
-          {notes.map((data, index) => (
-            <Card
-              key={index}
-              title={data.title}
-              description={data.description[0]}
-              delete={() => Delete(index)}
-              onPress={() =>
-                navigation.navigate('note', {
-                  index: index,
-                })
-              }
-            />
-          ))}
+          {notes &&
+            notes.map((data, index) => (
+              <Card
+                key={index}
+                title={data.title}
+                description={data.description[0]}
+                delete={() => Delete(index)}
+                onPress={() =>
+                  navigation.navigate('note', {
+                    index: index,
+                  })
+                }
+              />
+            ))}
         </ScrollView>
 
         <TouchableOpacity

@@ -86,6 +86,13 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginBottom: 20,
   },
+  image: {
+    marginTop: 10,
+    height: 300,
+    width: 300,
+    alignSelf: 'center',
+    borderRadius: 10,
+  },
 });
 
 export default styles;

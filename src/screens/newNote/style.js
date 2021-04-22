@@ -22,7 +22,9 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     position: 'absolute',
-    right: 10,
+    right: 15,
+  },
+  saveText: {
     fontSize: 20,
     color: 'white',
   },
@@ -51,6 +53,24 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 20,
     marginBottom: 20,
+  },
+  bullet: {
+    fontSize: 25,
+    marginHorizontal: 10,
+    paddingTop: 10,
+  },
+  description: {
+    flex: 1,
+  },
+  item: {
+    flexDirection: 'row',
+  },
+  image: {
+    marginTop: 10,
+    height: 300,
+    width: 300,
+    alignSelf: 'center',
+    borderRadius: 10,
   },
 });
 

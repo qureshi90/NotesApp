@@ -18,6 +18,7 @@
     "react-native": "0.64.0",
     "react-native-elements": "^3.3.2",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-image-crop-picker": "^0.36.0",
     "react-native-popup-menu": "^0.15.10",
     "react-native-reanimated": "^2.1.0",
     "react-native-safe-area-context": "^3.2.0",
